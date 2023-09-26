@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215147463631",
+    "project_id": "musicchat-app",
+    "storage_bucket": "musicchat-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215147463631:android:4f4f41ae2100a9268b08ba",
+        "android_client_info": {
+          "package_name": "com.sintan.mchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwhlL8AWjTq-EXTkCoepMZov14ho4YJpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
