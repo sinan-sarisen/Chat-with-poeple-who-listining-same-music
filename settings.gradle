@@ -8,4 +8,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TalkingMusic"
 include ':app'
-include ':spotifylibrary'
