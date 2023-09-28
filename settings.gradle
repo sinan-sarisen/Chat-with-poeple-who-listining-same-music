@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TalkingMusic"
 include ':app'
+include ':spotify-app-remote'
