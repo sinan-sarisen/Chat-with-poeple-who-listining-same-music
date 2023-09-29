@@ -55,11 +55,6 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 
-
-    //Spotify
-    implementation files("../spotify-app-remote/libs/spotify-app-remote-release-${appRemoteSampleVersionName}.aar")
-
-    implementation project(':spotify-app-remote')
     implementation "com.spotify.android:auth:2.0.0"
     implementation "com.google.code.gson:gson:2.6.1"
 
