@@ -4,6 +4,7 @@ package com.sintan.mchat
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +21,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.protocol.types.Track
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
@@ -48,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     val CLIENT_ID = "e8b663eab6d2483987f57481d17ef6c1"
     val AUTH_TOKEN_REQUEST_CODE = 0x10
     val AUTH_CODE_REQUEST_CODE = 0x11
+    private var spotifyAppRemote: SpotifyAppRemote? = null
+
 
     private val mOkHttpClient = OkHttpClient()
     private var mAccessToken: String? = null
@@ -105,6 +110,14 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    private fun getUserPlayerState(){
+        // Subscribe to PlayerState
+        spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
+            val track: Track = it.track
+            Log.d("MainActivity", track.name + " by " + track.artist.name)
+        }
+    }
+
     fun onGetUserProfileClicked(view: View?) {
         if (mAccessToken == null) {
             val snackbar: Snackbar = Snackbar.make(
@@ -116,6 +129,7 @@ class MainActivity : AppCompatActivity() {
             snackbar.show()
             return
         }
+        getUserPlayerState()
         val request: Request = Request.Builder()
             .url("https://api.spotify.com/v1/me")
             .addHeader("Authorization", "Bearer $mAccessToken")
