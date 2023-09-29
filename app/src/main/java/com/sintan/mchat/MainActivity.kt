@@ -63,12 +63,15 @@ class MainActivity : AppCompatActivity() {
     private var mCall: Call? = null
     private var connectionParams: ConnectionParams? = null
 
+
     override fun onStart() {
         super.onStart()
          connectionParams = ConnectionParams.Builder(CLIENT_ID)
             .setRedirectUri(redirectUri)
             .showAuthView(true)
             .build()
+
+        getUserPlayerState()
 
     }
 
@@ -77,7 +80,17 @@ class MainActivity : AppCompatActivity() {
         spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
             val track: Track = it.track
             Log.d("MainActivity", track.name + " by " + track.artist.name)
+
+            if(track.toString().isNotEmpty()) {
+                mAuth.currentUser?.uid?.let { it1 ->
+                    mDbRef.child("user").child(it1).child("listeningSong").push()
+                        .setValue(track)
+                }
+
+            }
         }
+
+
 
     }
 
@@ -168,7 +181,6 @@ class MainActivity : AppCompatActivity() {
             snackbar.show()
             return
         }
-        getUserPlayerState()
         val request: Request = Request.Builder()
             .url("https://api.spotify.com/v1/me")
             .addHeader("Authorization", "Bearer $mAccessToken")
@@ -239,6 +251,8 @@ class MainActivity : AppCompatActivity() {
     private fun updateTokenView() {
         val tokenView = findViewById<TextView>(R.id.token_text_view)
         tokenView.text = getString(R.string.token, mAccessToken)
+
+
     }
 
     private fun updateCodeView() {
