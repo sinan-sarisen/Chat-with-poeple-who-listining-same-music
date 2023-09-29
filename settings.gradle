@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TalkingMusic"
 include ':app'
+include ':auth-lib'
+include ':app-remote-lib'
+include ':spotify-app-remote'
