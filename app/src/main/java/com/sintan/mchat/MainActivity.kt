@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
             if(track.toString().isNotEmpty()) {
                 mAuth.currentUser?.uid?.let { it1 ->
-                    mDbRef.child("user").child(it1).child("listeningSong").push()
+                    mDbRef.child("user").child(it1).child("listeningSong")
                         .setValue(track)
                 }
 
@@ -126,8 +126,9 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 userlist.clear()
                 for(postSnapshot in snapshot.children){
+                    val userUri: String = postSnapshot.child("listeningSong").child("uri").value.toString()
                     val currentuser=postSnapshot.getValue(user::class.java)
-                    if(mAuth.currentUser?.uid != currentuser?.uid){
+                    if(mAuth.currentUser?.uid != currentuser?.uid && userUri == "spotify:track:1gH1h30wkQdd9zhY3j7a8T"){
                         userlist.add(currentuser!!)
                     }
                 }
