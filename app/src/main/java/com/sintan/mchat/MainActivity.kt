@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     private var mAccessToken: String? = null
     private var mAccessCode: String? = null
     private var mCall: Call? = null
+    private lateinit var track: Track
     private var connectionParams: ConnectionParams? = null
 
 
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     private fun connected() {
         // Subscribe to PlayerState
         spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
-            val track: Track = it.track
+            track = it.track
             Log.d("MainActivity", track.name + " by " + track.artist.name)
 
             if(track.toString().isNotEmpty()) {
@@ -128,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 for(postSnapshot in snapshot.children){
                     val userUri: String = postSnapshot.child("listeningSong").child("uri").value.toString()
                     val currentuser=postSnapshot.getValue(user::class.java)
-                    if(mAuth.currentUser?.uid != currentuser?.uid && userUri == "spotify:track:1gH1h30wkQdd9zhY3j7a8T"){
+                    if(mAuth.currentUser?.uid != currentuser?.uid && ::track.isInitialized && userUri == track.uri){
                         userlist.add(currentuser!!)
                     }
                 }
